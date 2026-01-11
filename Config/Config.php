@@ -1,9 +1,20 @@
 <?php
-// Configuración para Azure (usa variables de entorno si están definidas, sino defaults de Azure)
-const base_url = getenv('BASE_URL') ?: "https://biblioteca1-g3hkf3ebfqdfdqem.chilecentral-01.azurewebsites.net/";  // Cambia esto por la URL real de tu app en Azure
-const host = getenv('DB_HOST') ?: "bd-biblioteca.mysql.database.azure.com";
-const user = getenv('DB_USER') ?: "adminuser";
-const pass = getenv('DB_PASS') ?: "199925@c";
-const db = getenv('DB_NAME') ?: "biblioteca";
-const charset = "charset=utf8";
+// Configuración dinámica de la URL base
+if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') {
+    $protocol = "http://";
+} else {
+    $protocol = "https://";
+}
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$script_name = dirname($_SERVER['SCRIPT_NAME'] ?? '');
+$computed_base_url = $protocol . $host . rtrim($script_name, '/\\') . '/';
+
+// Definición de constantes usando define() para permitir ejecución de funciones
+define('base_url', getenv('BASE_URL') ?: $computed_base_url);
+
+define('host', getenv('DB_HOST') ?: "bd-biblioteca.mysql.database.azure.com");
+define('user', getenv('DB_USER') ?: "adminuser");
+define('pass', getenv('DB_PASS') ?: "199925@c");
+define('db', getenv('DB_NAME') ?: "biblioteca");
+define('charset', "charset=utf8");
 ?>

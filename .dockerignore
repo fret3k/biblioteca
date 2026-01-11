@@ -1,0 +1,10 @@
+.git
+.vscode
+.vercelignore
+vercel.json
+biblioteca.sql
+*.zip
+*.sql
+Dockerfile
+.dockerignore
+biblioteca/
