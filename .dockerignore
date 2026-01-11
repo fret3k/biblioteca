@@ -8,3 +8,5 @@ biblioteca.sql
 Dockerfile
 .dockerignore
 biblioteca/
+db_data/
+docker-compose.yml

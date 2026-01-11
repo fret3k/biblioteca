@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: biblioteca_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: biblioteca
+      MYSQL_USER: adminuser
+      MYSQL_PASSWORD: local_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./db_data:/var/lib/mysql
+      - ./biblioteca.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - biblioteca_net
+
+  app:
+    build: .
+    container_name: biblioteca_app
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=db
+      - DB_USER=adminuser
+      - DB_PASS=local_password
+      - DB_NAME=biblioteca
+      - BASE_URL=http://localhost:8080/
+    depends_on:
+      - db
+    networks:
+      - biblioteca_net
+
+networks:
+  biblioteca_net:
+    driver: bridge
