@@ -4,8 +4,14 @@ class Configuracion extends Controller
     public function __construct()
     {
         session_start();
-        if (empty($_SESSION['activo'])) {
+        $url = $_GET['url'] ?? '';
+        $array = explode("/", $url);
+        $method = $array[1] ?? 'index';
+        
+        // No redirigir si el método es 'error' o 'vacio'
+        if (empty($_SESSION['activo']) && !in_array($method, ['error', 'vacio'])) {
             header("location: " . base_url);
+            exit;
         }
         parent::__construct();
     }

@@ -1,5 +1,5 @@
 <?php 
-include 'Funciones.php'; 
+include_once 'Views/Catalogo/Funciones.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -7,7 +7,7 @@ include 'Funciones.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Virtual UNAMBA</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="<?php echo base_url; ?>Views/Catalogo/style.css">
 </head>
 <body>
     <!-- Contenido principal -->
@@ -68,7 +68,7 @@ include 'Funciones.php';
             <!-- Sidebar con imágenes de carreras -->
             <div class="sidebar">
                 <?php foreach ($carreras as $nombre => $datos): ?>
-                    <img src="<?php echo $datos['imagen']; ?>" alt="<?php echo $nombre; ?>"
+                    <img src="<?php echo base_url; ?>Views/Catalogo/<?php echo $datos['imagen']; ?>" alt="<?php echo $nombre; ?>"
                      onclick="mostrarLibros('<?php echo $datos['id']; ?>')">
                 <?php endforeach; ?>
             </div>
@@ -130,21 +130,6 @@ include 'Funciones.php';
                     <?php } ?>
                 </ul>
             </div>
-            <!-- Modal -->
-            <div id="modalLibro" class="modal" style="display:none;">
-                <div class="modal-content">
-                    <span class="close" onclick="cerrarModal()">&times;</span>
-                    <h3 id="modalTitulo"></h3>
-                    <img id="modalImagen" class="img-thumbnail" alt="Portada del libro">
-                    <p><strong>Cantidad:</strong> <span id="modalCantidad"></span></p>
-                    <p><strong>Páginas:</strong> <span id="modalPaginas"></span></p>
-                    <p><strong>Autor:</strong> <span id="modalAutor"></span></p>
-                    <p><strong>Editorial:</strong> <span id="modalEditorial"></span></p>
-                    <p><strong>ISBN:</strong> <span id="modalISBN"></span></p>
-                    <p><strong>Total Préstamos:</strong> <span id="modalPrestamos"></span></p>
-                    <p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
-                </div>
-            </div>
     </div>
 
     <footer>
@@ -169,6 +154,6 @@ include 'Funciones.php';
     <script>
         const BASE_URL = "<?php echo base_url . 'Assets/img/libros/'; ?>";
     </script>
-    <script src="../../Assets/js/catalogo.js"></script>
+    <script src="<?php echo base_url; ?>Assets/js/catalogo.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-include '../../Config/config.php';
+include_once 'Config/Config.php';
 
 $conexion = new mysqli(host, user, pass, db);
 
