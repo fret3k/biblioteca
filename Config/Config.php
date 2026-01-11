@@ -1,15 +1,15 @@
 <?php
 /**
- * CONFIGURACIÓN PARA MYSQL
+ * CONFIGURACIÓN PARA MYSQL (INFINITYFREE)
  * 
  * Este archivo maneja la URL base y las credenciales de la base de datos MySQL.
  */
 
-// Prioridad: 1. Variables de entorno (Render/Docker) | 2. Valores por defecto (Azure/Local)
-define('host', getenv('DB_HOST') ?: "bd-biblioteca.mysql.database.azure.com");
-define('user', getenv('DB_USER') ?: "adminuser");
-define('pass', getenv('DB_PASS') ?: "199925@c");
-define('db', getenv('DB_NAME') ?: "biblioteca");
+// Credenciales obtenidas de InfinityFree
+define('host', getenv('DB_HOST') ?: "sql302.infinityfree.com");
+define('user', getenv('DB_USER') ?: "if0_40875887");
+define('pass', getenv('DB_PASS') ?: "H1d0lPgJujhEx");
+define('db', getenv('DB_NAME') ?: "if0_40875887_biblioteca");
 define('charset', "charset=utf8");
 
 // --- LÓGICA DE URL BASE ---
