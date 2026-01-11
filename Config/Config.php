@@ -1,15 +1,16 @@
 <?php
 /**
- * CONFIGURACIÓN PARA SUPABASE (POSTGRESQL)
+ * CONFIGURACIÓN PARA MYSQL
+ * 
+ * Este archivo maneja la URL base y las credenciales de la base de datos MySQL.
  */
 
-// Si existe la variable de entorno la usa, si no, usa valores por defecto (ejemplo)
-define('host', getenv('DB_HOST') ?: "aws-0-us-west-1.pooler.supabase.com"); // Cambia esto por tu host de Supabase
-define('user', getenv('DB_USER') ?: "postgres.xxxxxx");                      // Cambia esto por tu usuario
-define('pass', getenv('DB_PASS') ?: "tu_password_aqui");                    // Cambia esto por tu contraseña
-define('db', getenv('DB_NAME') ?: "postgres");                              // En Supabase suele ser 'postgres'
-define('port', getenv('DB_PORT') ?: "6543");                                // Puerto de Supabase (Transacción) o 5432
-define('charset', "utf8");
+// Prioridad: 1. Variables de entorno (Render/Docker) | 2. Valores por defecto (Azure/Local)
+define('host', getenv('DB_HOST') ?: "bd-biblioteca.mysql.database.azure.com");
+define('user', getenv('DB_USER') ?: "adminuser");
+define('pass', getenv('DB_PASS') ?: "199925@c");
+define('db', getenv('DB_NAME') ?: "biblioteca");
+define('charset', "charset=utf8");
 
 // --- LÓGICA DE URL BASE ---
 $protocol = 'http://';

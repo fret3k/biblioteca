@@ -34,16 +34,16 @@ include_once 'Views/Catalogo/Funciones.php';
                     FROM libro L
                     INNER JOIN autor A ON L.id_autor = A.id
                     INNER JOIN editorial E ON L.id_editorial = E.id
-                    WHERE LOWER(L.titulo) LIKE LOWER(:search) OR LOWER(A.autor) LIKE LOWER(:search)";
+                    WHERE LOWER(L.titulo) LIKE LOWER(?) OR LOWER(A.autor) LIKE LOWER(?)";
             
             $stmt = $conexion->prepare($query);
-            $stmt->bindParam(':search', $searchInput, PDO::PARAM_STR);
+            $stmt->bind_param("ss", $searchInput, $searchInput);
             $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $stmt->get_result();
 
             echo '<ul class="book-list">';
-            if (count($results) > 0) {
-                foreach ($results as $libro) {
+            if ($result->num_rows > 0) {
+                while ($libro = $result->fetch_assoc()) {
                     echo '<li class="product-item">
                             <div class="libro-card">
                                 <img src="' . base_url . 'Assets/img/libros/' . $libro['imagen'] . '" 
@@ -76,11 +76,9 @@ include_once 'Views/Catalogo/Funciones.php';
         <!-- Libros por Carrera -->
             <?php foreach ($carreras as $nombre => $datos): ?>
                 <div id="libros-<?php echo $datos['id']; ?>" class="libros-container">
-                    <?php 
-                    $libros = $librosPorCarrera[$datos['id']]->fetchAll(PDO::FETCH_ASSOC);
-                    if (count($libros) > 0): ?>
+                    <?php if ($librosPorCarrera[$datos['id']]->num_rows > 0): ?>
                         <ul class="book-list">
-                            <?php foreach ($libros as $libro): ?>
+                            <?php while ($libro = $librosPorCarrera[$datos['id']]->fetch_assoc()): ?>
                                 <li class="product-item">
                                     <div class="libro-card">
                                         <img src="<?php echo base_url . 'Assets/img/libros/' . $libro['imagen']; ?>" 
@@ -91,7 +89,7 @@ include_once 'Views/Catalogo/Funciones.php';
                                         </button>
                                     </div>
                                 </li>
-                            <?php endforeach; ?>
+                            <?php endwhile; ?>
                         </ul>
                     <?php else: ?>
                         <p class="p2">No hay libros disponibles para esta carrera.</p>
@@ -118,9 +116,7 @@ include_once 'Views/Catalogo/Funciones.php';
             <h2>Libros con Mayor Consecuencia</h2>
             <div class="product-gridet">
                 <ul id="bookList" class="book-list">
-                    <?php 
-                    $librosMayor = $resultado1->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($librosMayor as $libro) { ?>
+                    <?php while ($libro = $resultado1->fetch_assoc()) { ?>
                         <li class="product-item">
                             <div class="libro-card">
                                 <img src="<?php echo base_url . 'Assets/img/libros/' . $libro['imagen']; ?>" 
