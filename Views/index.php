@@ -18,8 +18,8 @@
     </section>
     <section class="login-content">
         <div class="logo" >
-        <h1>Biblioteca Unamba <img src="Assets/img/logos.png"  alt="User Image" width="100"></h1>
-            <a href="http://localhost:8080/biblioteca/Views/Catalogo/index.php" class="btn btn-primary">
+        <h1>Biblioteca Unamba <img src="<?php echo base_url; ?>Assets/img/logos.png"  alt="User Image" width="100"></h1>
+            <a href="<?php echo base_url; ?>Catalogo" class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
                     <path d="M1 2.828c.885-.37 2.154-.829 3.5-.829 1.346 0 2.615.459 3.5.829V14.17c-.885-.37-2.154-.829-3.5-.829-1.346 0-2.615.459-3.5.829V2.828zM0 1.993C0 .892 1.79 0 4 0c2.21 0 4 .892 4 1.993v12.014C8 15.108 6.21 16 4 16c-2.21 0-4-.892-4-1.993V1.993zm9 0C9 .892 10.79 0 13 0s4 .892 4 1.993v12.014C17 15.108 15.21 16 13 16s-4-.892-4-1.993V1.993zm1 0v12.014c.885-.37 2.154-.829 3.5-.829s2.615.459 3.5.829V1.993c-.885-.37-2.154-.829-3.5-.829s-2.615.459-3.5.829z"/>
                 </svg>

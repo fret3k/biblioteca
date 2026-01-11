@@ -1,15 +1,18 @@
 <?php
-// Configuración dinámica de la URL base
-if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') {
-    $protocol = "http://";
-} else {
-    $protocol = "https://";
+// Configuración dinámica de la URL base compatible con proxies (Render, Cloudflare, etc.)
+$protocol = 'http://';
+if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+    (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) {
+    $protocol = 'https://';
 }
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-$script_name = dirname($_SERVER['SCRIPT_NAME'] ?? '');
-$computed_base_url = $protocol . $host . rtrim($script_name, '/\\') . '/';
 
-// Definición de constantes usando define() para permitir ejecución de funciones
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$script_path = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+$base_path = ($script_path === '/') ? '/' : $script_path . '/';
+$computed_base_url = $protocol . $host . $base_path;
+
+// Definición de constantes usando define()
 define('base_url', getenv('BASE_URL') ?: $computed_base_url);
 
 define('host', getenv('DB_HOST') ?: "bd-biblioteca.mysql.database.azure.com");
