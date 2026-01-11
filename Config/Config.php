@@ -1,27 +1,15 @@
 <?php
 /**
- * CONFIGURACIÓN DEL PROYECTO
- * 
- * Este archivo maneja la URL base y las credenciales de la base de datos.
- * Soporta tanto entorno local (Docker/XAMPP) como producción (Render/Azure).
+ * CONFIGURACIÓN PARA SUPABASE (POSTGRESQL)
  */
 
-/* 
-// --- CONFIGURACIÓN ANTERIOR (AZURE) - COMENTADA ---
-define('host', getenv('DB_HOST') ?: "bd-biblioteca.mysql.database.azure.com");
-define('user', getenv('DB_USER') ?: "adminuser");
-define('pass', getenv('DB_PASS') ?: "199925@c");
-define('db', getenv('DB_NAME') ?: "biblioteca");
-*/
-
-// --- CONFIGURACIÓN ACTUAL (DOCKER LOCAL) ---
-// El 'host' es 'db' porque así se llama el servicio en docker-compose.yml
-define('host', getenv('DB_HOST') ?: "db"); 
-define('user', getenv('DB_USER') ?: "adminuser");
-define('pass', getenv('DB_PASS') ?: "local_password");
-define('db', getenv('DB_NAME') ?: "biblioteca");
-define('charset', "charset=utf8");
-
+// Si existe la variable de entorno la usa, si no, usa valores por defecto (ejemplo)
+define('host', getenv('DB_HOST') ?: "aws-0-us-west-1.pooler.supabase.com"); // Cambia esto por tu host de Supabase
+define('user', getenv('DB_USER') ?: "postgres.xxxxxx");                      // Cambia esto por tu usuario
+define('pass', getenv('DB_PASS') ?: "tu_password_aqui");                    // Cambia esto por tu contraseña
+define('db', getenv('DB_NAME') ?: "postgres");                              // En Supabase suele ser 'postgres'
+define('port', getenv('DB_PORT') ?: "6543");                                // Puerto de Supabase (Transacción) o 5432
+define('charset', "utf8");
 
 // --- LÓGICA DE URL BASE ---
 $protocol = 'http://';

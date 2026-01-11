@@ -7,12 +7,12 @@ function obtenerLibrosPorCarrera($conexion, $id_carrera) {
               INNER JOIN autor A ON L.id_autor = A.id
               INNER JOIN editorial E ON L.id_editorial = E.id
               INNER JOIN detalle_librocarrera LC ON L.id = LC.id_libro
-              WHERE LC.id_carrera = ?";
+              WHERE LC.id_carrera = :id_carrera";
     
     $stmt = $conexion->prepare($query);
-    $stmt->bind_param("i", $id_carrera);
+    $stmt->bindParam(':id_carrera', $id_carrera, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->get_result();
+    return $stmt; // En PDO ya podemos iterar sobre el statement
 }
 
 // Libro por Carrera
@@ -33,7 +33,7 @@ foreach ($carreras as $nombre => $datos) {
     $librosPorCarrera[$datos['id']] = obtenerLibrosPorCarrera($conexion, $datos['id']);
 }
 
-//LIBROS CON MAYOR CONSECUENCIA O PRÉSTAMOS
+//LIBROS CON MAYOR CONSECUENCIA O PRÉSTAMOS (PostgreSQL requiere agrupar por todas las columnas seleccionadas)
 $query1 = "SELECT 
             L.imagen, 
             L.titulo, 
@@ -64,23 +64,18 @@ if (isset($_GET['query'])) {
               INNER JOIN autor A ON L.id_autor = A.id
               INNER JOIN editorial E ON L.id_editorial = E.id
               LEFT JOIN prestamo P ON L.id = P.id_libro
-              WHERE LOWER(L.titulo) LIKE LOWER(?) 
-                 OR LOWER(A.autor) LIKE LOWER(?) 
-                 OR LOWER(L.cantidad) LIKE LOWER(?) 
-                 OR LOWER(L.isbn) LIKE LOWER(?)
+              WHERE LOWER(L.titulo) LIKE LOWER(:search) 
+                 OR LOWER(A.autor) LIKE LOWER(:search) 
+                 OR LOWER(L.isbn) LIKE LOWER(:search)
               GROUP BY L.id, L.titulo, A.autor, L.cantidad, L.isbn, L.num_pagina, E.editorial, L.imagen
               ORDER BY total_prestamos DESC";
 
     $stmt = $conexion->prepare($queryb);
-    $stmt->bind_param("ssss", $search, $search, $search, $search);
+    $stmt->bindParam(':search', $search, PDO::PARAM_STR);
     $stmt->execute();
-    $result = $stmt->get_result();
-
-    $books = [];
-    while ($row = $result->fetch_assoc()) {
-        $books[] = $row;
-    }
-
+    
+    $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($books);
+    exit;
 }
 ?>

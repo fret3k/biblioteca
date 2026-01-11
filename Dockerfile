@@ -3,8 +3,11 @@ FROM php:8.2-apache
 # Enable Apache modules
 RUN a2enmod rewrite
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+# Install dependencies for PostgreSQL
+RUN apt-get update && apt-get install -y libpq-dev
+
+# Install PHP extensions: PDO MySQL (legacy), MySQLi (legacy), and PDO PGSQL (Supabase)
+RUN docker-php-ext-install pdo pdo_mysql mysqli pdo_pgsql
 
 # Set working directory
 WORKDIR /var/www/html
